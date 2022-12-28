@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Js clock</title>
+    <style>
+        html {
+            background: #018ded url(./img/clock\ background.webp);
+            background-size: cover;
+            text-align: center;
+            font-size: 10px;
+        }
+
+        body {
+            font-size: 2rem;
+            display: flex;
+            flex: 1;
+            min-height: 96vh;
+            align-items: center;
+        }
+
+        .clock {
+            width: 50rem;
+            height: 50rem;
+            border: 28px dashed rgb(0, 0, 0);
+            border-radius: 50%;
+            margin: 50px auto;
+            position: relative;
+            padding: 2rem;
+        }
+
+        .clock-face {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hand {
+            width: 50%;
+            height: 6px;
+            background: black;
+            position: absolute;
+            border-radius: 10px;
+            top: 50%;
+            transform-origin: 100%;
+            transform: rotate(90deg);
+            transition: all 0s;
+            transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+        }
+
+        .second-hand {
+            background: rgb(174, 37, 37);
+            box-shadow: 0 0 10px rgb(234, 255, 0);
+        }
+
+        .hour-hand {
+            height: 13px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="clock">
+        <div class="clock-face">
+            <div class="hand hour-hand"></div>
+            <div class="hand min-hand"></div>
+            <div class="hand second-hand">
+                <audio id="sound" src="Sound/TunePocket-Padlock-Lock-Click-Preview.mp3"></audio>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function setDate() {
+            //second hand 
+            const secondHand = document.querySelector(".second-hand");
+            const now = new Date();
+            const seconds = now.getSeconds();
+            const secondsDegrees = (seconds / 60) * 360 + 90;
+            secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+            const sound = document.getElementById('sound');
+            sound.currentTime = 0;
+            sound.play();
+
+            //for min hand
+            const minHand = document.querySelector(".min-hand");
+            const min = now.getMinutes();
+            const minDegrees = (min / 60) * 360 + 90;
+            minHand.style.transform = `rotate(${minDegrees}deg)`;
+
+            //for hour hand
+            const hourHand = document.querySelector(".hour-hand");
+            const hr = now.getHours();
+            const hrDegrees = (hr / 12) * 360 + 90;
+            hourHand.style.transform = `rotate(${hrDegrees}deg)`;
+        }
+        setInterval(setDate, 1000);
+    </script>
+</body>
+
+</html>
